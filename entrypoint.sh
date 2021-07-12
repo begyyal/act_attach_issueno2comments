@@ -40,8 +40,10 @@ while read commit_hash; do
   tree=$(echo "$props" | grep tree | cut -d " " -f 2)
   author=$(echo "$props" | grep author | cut -d " " -f 2-)
 
+  target_flag=$(cat tmp_target_commits | grep ^$commit_hash)
   comments=$(git cat-file -p $commit_hash | 
-  awk '{if(flag==1){print $0}else if($0==""){flag=1}}')
+  awk '{if(flag==1){print $0}else if($0==""){flag=1}}' |
+  awk '{if(NR==1 && "'$target_flag'"!=""){print "#'$issue_no' " $0}else{print}}')
 
   git commit-tree $tree -p $parent -m "$comments" > $head_ref
   git commit --amend --author="$author" -C HEAD
