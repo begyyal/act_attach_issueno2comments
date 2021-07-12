@@ -48,5 +48,7 @@ while read commit_hash; do
   parent=$(cat $head_ref)
 done
 
+git push origin HEAD -f
+
 rm -f tmp_*
 exit 0
