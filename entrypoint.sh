@@ -14,10 +14,13 @@ fi
 git clone https://${token}@github.com/${repos}.git
 cd ./${repos#*/}
 
+git config --global user.email "you@example.com"
+git config --global user.name "begyyal-ghost"
+
 git fetch --all
 git checkout $to
 
-git log ${from}..${to} --oneline |
+git log origin/${from}..${to} --oneline |
 cut -d " " -f 1 |
 tac > tmp_target_commits
 first_commit=$(cat tmp_target_commits | head -n 1)
@@ -31,14 +34,14 @@ tee tmp_targets_of_revision |
 head -n 1)
 
 head_ref="./.git/refs/heads/$to"
-cat $tmp_targets_of_revision |
+cat tmp_targets_of_revision |
 sed '1d' |
 while read commit_hash; do
 
   props=$(git cat-file -p $commit_hash | 
   awk '{if($0==""){flag=1}else if(flag!=1){print $0}}')
-  tree=$(echo "$props" | grep tree | cut -d " " -f 2)
-  author=$(echo "$props" | grep author | cut -d " " -f 2-)
+  tree=$(echo "$props" | grep ^tree | cut -d " " -f 2)
+  author=$(echo "$props" | grep ^author | cut -d " " -f 2-)
 
   target_flag=$(cat tmp_target_commits | grep ^$commit_hash)
   comments=$(git cat-file -p $commit_hash | 
