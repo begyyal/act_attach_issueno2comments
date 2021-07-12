@@ -1,0 +1,23 @@
+name: 'Revise git comments'
+inputs:
+  token:
+    required: true
+  repos:
+    required: true  
+  issueNo:
+    required: true
+  prefix:
+    required: false
+    default: 'feature'
+  from:
+    required: false
+    default: 'develop'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.token }}
+    - ${{ inputs.repos }}
+    - ${{ inputs.issueNo }}
+    - ${{ inputs.prefix }}
+    - ${{ inputs.from }}
