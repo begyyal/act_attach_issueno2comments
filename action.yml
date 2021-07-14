@@ -1,12 +1,13 @@
 name: 'Revise git comments'
 inputs:
+  issueNo:
+    required: true
   token:
     required: false
     default: ${{ github.token }}
-  repos:
-    required: true  
-  issueNo:
-    required: true
+  repos:  
+    required: false
+    default: ${{ github.repository }}
   prefix:
     required: false
     default: 'feature'
