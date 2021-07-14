@@ -1,6 +1,6 @@
 name: 'Revise git comments'
 inputs:
-  token:
+  githubToken:
     required: true
   repos:
     required: true  
@@ -16,7 +16,7 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.token }}
+    - ${{ inputs.githubToken }}
     - ${{ inputs.repos }}
     - ${{ inputs.issueNo }}
     - ${{ inputs.prefix }}
