@@ -1,5 +1,7 @@
 #!/bin/bash
 
+tmp='../tmp_'
+
 token=$1
 repos=$2
 issue_no=$3
@@ -22,19 +24,19 @@ git checkout $to
 
 git log origin/${from}..${to} --oneline |
 cut -d " " -f 1 |
-tac > ../tmp_target_commits
-first_commit=$(cat ../tmp_target_commits | head -n 1)
+tac > ${tmp}target_commits
+first_commit=$(cat ${tmp}target_commits | head -n 1)
 
 target_nr=$(git log --oneline | awk '{if($1=="'$first_commit'"){print NR}}')
 parent=$(git log --oneline |
 cut -d " " -f 1 |
 head -n $(($target_nr+1)) | 
 tac |
-tee ../tmp_targets_of_revision |
+tee ${tmp}targets_of_revision |
 head -n 1)
 
 head_ref="./.git/refs/heads/$to"
-cat ../tmp_targets_of_revision |
+cat ${tmp}targets_of_revision |
 sed '1d' |
 while read commit_hash; do
 
@@ -43,7 +45,7 @@ while read commit_hash; do
   tree=$(echo "$props" | grep ^tree | cut -d " " -f 2)
   author=$(echo "$props" | grep ^author | cut -d " " -f 2-)
 
-  target_flag=$(cat ../tmp_target_commits | grep ^$commit_hash)
+  target_flag=$(cat ${tmp}target_commits | grep ^$commit_hash)
   comments=$(git cat-file -p $commit_hash | 
   awk '{if(flag==1){print $0}else if($0==""){flag=1}}' |
   awk '{if(NR==1 && "'$target_flag'"!=""){print "#'$issue_no' " $0}else{print}}')
@@ -55,5 +57,5 @@ done
 
 git push origin HEAD -f
 
-rm -f ../tmp_*
+rm -f ${tmp}*
 exit 0
