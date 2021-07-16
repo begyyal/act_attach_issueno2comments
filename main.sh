@@ -59,5 +59,7 @@ done
 
 git push origin HEAD -f
 
+echo test
+
 rm -f ${tmp}*
 exit 0
