@@ -20,7 +20,8 @@ git config --local user.email "you@example.com"
 git config --local user.name "begyyal-ghost"
 
 origin=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}
-git config --local http.${origin}/.extraheader $(printf "%s"":$token" | base64)
+token64=$(printf "%s"":$token" | base64)
+git config --local http.${origin}/.extraheader "AUTHORIZATION: basic $token64"
 
 git fetch --all
 git checkout $to
@@ -40,10 +41,6 @@ head -n 1)
 
 head_ref="./.git/refs/heads/$to"
 attachment='#'$issue_no
-
-echo AAAAAAAAAAAAAAAAAAAAA
-cat ./.git/config
-echo AAAAAAAAAAAAAAAAAAAAA
 
 cat ${tmp}targets_of_revision |
 sed '1d' |
