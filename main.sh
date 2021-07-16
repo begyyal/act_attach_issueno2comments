@@ -36,7 +36,7 @@ tee ${tmp}targets_of_revision |
 head -n 1)
 
 head_ref="./.git/refs/heads/$to"
-attachment='#'$issue_no' '
+attachment='#'$issue_no
 
 cat ${tmp}targets_of_revision |
 sed '1d' |
@@ -50,7 +50,7 @@ while read commit_hash; do
   target_flag=$(cat ${tmp}target_commits | grep ^$commit_hash)
   comments=$(git cat-file -p $commit_hash | 
   awk '{if(flag==1){print $0}else if($0==""){flag=1}}' |
-  awk '{if(NR==1 && "'$target_flag'"!="" && $0 !~ /^('$attachment').*$/){print "'$attachment'" $0}else{print}}')
+  awk '{if(NR==1 && "'$target_flag'"!="" && $0 !~ /^('$attachment').*$/){print "'$attachment' " $0}else{print}}')
 
   git commit-tree $tree -p $parent -m "$comments" > $head_ref
   (git commit --amend --author="$author" -C HEAD) || :
