@@ -56,7 +56,7 @@ while read commit_hash; do
   awk '{if(NR==1 && "'$target_flag'"!="" && $0 !~ /^('$attachment').*$/){print "'$attachment' " $0}else{print}}')
 
   git commit-tree $tree -p $parent -m "$comments" > $head_ref
-  (git commit --amend --author="$author" -C HEAD) || :
+  git commit --amend --author="$author" -C HEAD --allow-empty
   parent=$(cat $head_ref)
 done
 
