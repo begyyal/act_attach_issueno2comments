@@ -42,10 +42,6 @@ head -n 1)
 head_ref="./.git/refs/heads/$to"
 attachment='#'$issue_no
 
-echo AAAAAAAAAAAAAAAAAAAAA
-cat ./.git/config
-echo AAAAAAAAAAAAAAAAAAAAA
-
 cat ${tmp}targets_of_revision |
 sed '1d' |
 while read commit_hash; do
