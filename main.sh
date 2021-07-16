@@ -13,14 +13,14 @@ if [ -z $token -o -z $repos -o -z $issue_no ]; then
   exit 1
 fi
 
-origin=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}
-git config --local http.${origin}/.extraheader $(printf "%s"":$token" | base64)
-
-git config --global user.email "you@example.com"
-git config --global user.name "begyyal-ghost"
-
 git clone https://github.com/${repos}.git
 cd ./${repos#*/}
+
+git config --local user.email "you@example.com"
+git config --local user.name "begyyal-ghost"
+
+origin=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}
+git config --local http.${origin}/.extraheader $(printf "%s"":$token" | base64)
 
 git fetch --all
 git checkout $to
