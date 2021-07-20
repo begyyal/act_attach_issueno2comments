@@ -1,10 +1,10 @@
 #!/bin/bash
 
-tmp='../tmp_'
+tmp='/tmp/act_'
 
-token=$1
-repos=$2
-issue_no=$3
+issue_no=$1
+token=$2
+repos=$3
 from=${5:-develop}
 to=${4:-feature}/$issue_no
 
@@ -63,7 +63,7 @@ done
 
 git push origin HEAD -f
 
-cd ../  
+cd ../
 rm -rdf ./${repos#*/}
 rm -f ${tmp}*
 exit 0
