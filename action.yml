@@ -18,8 +18,8 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
+    - ${{ inputs.issueNo }}
     - ${{ inputs.token }}
     - ${{ inputs.repos }}
-    - ${{ inputs.issueNo }}
     - ${{ inputs.prefix }}
     - ${{ inputs.from }}
