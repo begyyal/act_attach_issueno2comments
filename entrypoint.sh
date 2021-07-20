@@ -1,6 +1,8 @@
 #!/bin/bash
 
-tmp='/tmp/act_'
+tmp_dir='/tmp/'$(date +%Y%m%d%H%M%S)
+mkdir -p $tmp_dir
+tmp=${tmp_dir}'/act_'
 
 issue_no=$1
 token=$2
