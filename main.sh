@@ -65,6 +65,5 @@ git push origin HEAD -f
 
 cd ../  
 rm -rdf ./${repos#*/}
-
 rm -f ${tmp}*
 exit 0
