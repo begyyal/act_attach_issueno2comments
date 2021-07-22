@@ -1,20 +1,27 @@
-# 概要
+# Overview
 
-GithubAction。  
-featureブランチが持つ固有のコミットコメント全てに対して頭にIssueNoを付与する。  
+This is a Github Action.  
+Prepend IssueNo to all comments of unique commit in the branch.  
 
-## 前提
+## Premise
 
-- https://github.com/begyyal/act_revise_comments/blob/master/action.yml
-- featureブランチの命名規則は [prefix]/[issue_no] で運用する
+- [Action's format including inputs.](https://github.com/begyyal/act_revise_comments/blob/master/action.yml)
+- Revised commits take over original author, but the committer does not.
 
-## 例
+## Example
 
-comment2 -> 'second commit'  
-comment1 -> 'first commit'  
+issueNo:1
+
+```
+7b88082 (HEAD -> feature/1, origin/feature/1) test2  
+43f3ab2 test1  
+a3d2669 (origin/develop, origin/HEAD, develop) test3  
+```
 
 &nbsp;&nbsp;↓&nbsp;↓&nbsp;↓  
-  
-comment2 -> '**#1** second commit'  
-comment1 -> '**#1** first commit'  
-  
+
+```
+7b88082 (HEAD -> feature/1, origin/feature/1) #1 test2  
+43f3ab2 #1 test1  
+a3d2669 (origin/develop, origin/HEAD, develop) test3
+```
