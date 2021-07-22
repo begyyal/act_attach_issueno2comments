@@ -14,6 +14,12 @@ inputs:
   from:
     required: false
     default: 'develop'
+  userName:
+    required: false
+    default: 'begyyal-ghost'
+  userMail:
+    required: false
+    default: 'begyyal@gmail.com'
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -23,3 +29,5 @@ runs:
     - ${{ inputs.repos }}
     - ${{ inputs.prefix }}
     - ${{ inputs.from }}
+    - ${{ inputs.userName }}
+    - ${{ inputs.userMail }}

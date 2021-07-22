@@ -7,8 +7,11 @@ tmp=${tmp_dir}'/act_'
 issue_no=$1
 token=$2
 repos=$3
-from=${5:-develop}
-to=${4:-feature}/$issue_no
+from=$5
+to=${4}/$issue_no
+
+user_name=$6
+user_mail=$7
 
 if [ -z $token -o -z $repos -o -z $issue_no ]; then
   echo 'Required argument lacks.'
@@ -18,8 +21,8 @@ fi
 git clone https://github.com/${repos}.git
 cd ./${repos#*/}
 
-git config --local user.email "you@example.com"
-git config --local user.name "begyyal-ghost"
+git config --local user.email $user_mail
+git config --local user.name $user_name
 
 origin=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}
 token64=$(printf "%s""x-access-token:$token" | base64)
