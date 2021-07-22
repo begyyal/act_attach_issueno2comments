@@ -1,7 +1,7 @@
 # Overview
 
 This is a Github Action.  
-Prepend IssueNo to all comments of unique commit in the branch.  
+Prepend the issue no to all comments of unique commit in the branch.  
 
 ## Premise
 
