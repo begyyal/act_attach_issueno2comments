@@ -59,7 +59,7 @@ while read commit_hash; do
 
   comments=$(git cat-file -p $commit_hash | awk '{if(flag==1){print $0}else if($0==""){flag=1}}')
   if [ -z $started ]; then
-    started=$(echo "$comments" | awk '{if(NR==1 && $0 !~ /^('$attachment').*$/){print "1"}')
+    started=$(echo "$comments" | awk '{if(NR==1 && $0 !~ /^('$attachment').*$/){print "1"}}')
     [ -z $started ] && continue
   fi
 
