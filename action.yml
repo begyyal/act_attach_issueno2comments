@@ -1,17 +1,19 @@
-name: 'Give issueNo to comments'
+name: 'Give issue no to comments'
+description: 'Prepend the issue no to all comments of unique commit in the branch.'
 
 inputs:
   issueNo:
     required: true
-  target:
+  branch:
     required: false
+    default: ${{ github.head_ref }}
   token:
     required: false
     default: ${{ github.token }}
   repos:  
     required: false
     default: ${{ github.repository }}
-  from:
+  baseBranch:
     required: false
     default: 'develop'
   userName:
@@ -25,9 +27,9 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.issueNo }}
-    - ${{ inputs.target }}
+    - ${{ inputs.branch }}
     - ${{ inputs.token }}
     - ${{ inputs.repos }}
-    - ${{ inputs.from }}
+    - ${{ inputs.baseBranch }}
     - ${{ inputs.userName }}
     - ${{ inputs.userMail }}
