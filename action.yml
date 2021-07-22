@@ -33,3 +33,7 @@ runs:
     - ${{ inputs.baseBranch }}
     - ${{ inputs.userName }}
     - ${{ inputs.userMail }}
+    
+branding:
+  icon: 'message-square'
+  color: 'red'
