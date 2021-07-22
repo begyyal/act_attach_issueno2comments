@@ -13,6 +13,11 @@ from=$5
 user_name=$6
 user_mail=$7
 
+if [ -z $issue_no ]; then
+  echo 'Required argument lacks.'
+  exit 1
+fi
+
 origin=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}
 git clone ${origin}/${repos}.git
 cd ./${repos#*/}
