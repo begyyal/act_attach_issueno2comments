@@ -1,16 +1,17 @@
-name: 'Revise git comments'
+name: 'Give issueNo to comments'
+
 inputs:
   issueNo:
     required: true
+  target:
+    required: false
+    default: 'feature/'${{ inputs.issueNo }}
   token:
     required: false
     default: ${{ github.token }}
   repos:  
     required: false
     default: ${{ github.repository }}
-  prefix:
-    required: false
-    default: 'feature'
   from:
     required: false
     default: 'develop'
@@ -25,9 +26,9 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.issueNo }}
+    - ${{ inputs.target }}
     - ${{ inputs.token }}
     - ${{ inputs.repos }}
-    - ${{ inputs.prefix }}
     - ${{ inputs.from }}
     - ${{ inputs.userName }}
     - ${{ inputs.userMail }}

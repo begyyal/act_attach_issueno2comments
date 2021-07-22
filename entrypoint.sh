@@ -5,10 +5,10 @@ mkdir -p $tmp_dir
 tmp=${tmp_dir}'/act_'
 
 issue_no=$1
-token=$2
-repos=$3
+to=$2
+token=$3
+repos=$4
 from=$5
-to=${4}/$issue_no
 
 user_name=$6
 user_mail=$7
