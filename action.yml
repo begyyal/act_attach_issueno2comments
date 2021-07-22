@@ -5,7 +5,6 @@ inputs:
     required: true
   target:
     required: false
-    default: 'feature/'${{ inputs.issueNo }}
   token:
     required: false
     default: ${{ github.token }}

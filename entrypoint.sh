@@ -5,7 +5,7 @@ mkdir -p $tmp_dir
 tmp=${tmp_dir}'/act_'
 
 issue_no=$1
-to=$2
+to=${2:-feature/$issue_no}
 token=$3
 repos=$4
 from=$5
