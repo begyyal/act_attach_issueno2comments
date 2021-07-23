@@ -74,9 +74,15 @@ while read commit_hash; do
   parent=$(cat $head_ref)
 done
 
+if [ $? != 0 ]; then
+  echo 'Error occurred.'
+  exit 1
+fi
+
 git push origin HEAD -f
 
 cd ../
 rm -rdf ./${repos#*/}
 rm -f ${tmp}*
+
 exit 0
