@@ -15,7 +15,7 @@ inputs:
     default: ${{ github.repository }}
   baseBranch:
     required: false
-    default: 'develop'
+    default: ${{ github.base_ref }}
   userName:
     required: false
     default: 'begyyal-ghost'
