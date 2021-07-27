@@ -37,7 +37,7 @@ tac > ${tmp}target_commits
 first_commit=$(cat ${tmp}target_commits | head -n 1)
 if [ -z "$first_commit" ]; then
   echo 'Target commit dont exist.'
-  exit 1
+  exit 0
 fi
 
 target_nr=$(git log --oneline | awk '{if($1=="'$first_commit'"){print NR}}')
