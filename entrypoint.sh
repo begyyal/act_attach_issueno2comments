@@ -35,6 +35,10 @@ git log origin/${from}..${to} --oneline |
 cut -d " " -f 1 |
 tac > ${tmp}target_commits
 first_commit=$(cat ${tmp}target_commits | head -n 1)
+if [ -z "$first_commit" ]; then
+  echo 'Target commit dont exist.'
+  exit 1
+fi
 
 target_nr=$(git log --oneline | awk '{if($1=="'$first_commit'"){print NR}}')
 parent=$(git log --oneline |
