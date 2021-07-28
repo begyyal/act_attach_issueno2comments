@@ -19,9 +19,9 @@ Prepend a prefix to all comments of unique commits in the branch.
 
 ## Example
 
-prefix -> #1
-from -> develop
-to -> feature/1
+prefix -> #1  
+from -> develop  
+to -> feature/1  
 
 ```
 7b88082 (HEAD -> feature/1, origin/feature/1) test2  
