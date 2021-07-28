@@ -13,7 +13,7 @@ from=$5
 user_name=$6
 user_mail=$7
 
-[ -z "$8" ] && cushion=' ' || :
+[ -z "$8" ] && cushion=' ' || cushion=''
 
 if [ -z "$prefix" ]; then
   echo 'Required argument lacks.'
