@@ -4,7 +4,7 @@ tmp_dir='/tmp/'$(date +%Y%m%d%H%M%S)
 mkdir -p $tmp_dir
 tmp=${tmp_dir}'/act_'
 
-issue_no=$1
+prefix="$1"
 to=$2
 token=$3
 repos=$4
@@ -13,7 +13,9 @@ from=$5
 user_name=$6
 user_mail=$7
 
-if [ -z $issue_no ]; then
+[ -z "$8" ] && cushion=' ' || :
+
+if [ -z "$prefix" ]; then
   echo 'Required argument lacks.'
   exit 1
 fi
@@ -49,7 +51,6 @@ tee ${tmp}targets_of_revision |
 head -n 1)
 
 head_ref="./.git/refs/heads/$to"
-attachment='#'$issue_no
 started=''
 
 cat ${tmp}targets_of_revision |
@@ -63,14 +64,14 @@ while read commit_hash; do
 
   comments=$(git cat-file -p $commit_hash | awk '{if(flag==1){print $0}else if($0==""){flag=1}}')
   if [ -z $started ]; then
-    started=$(echo "$comments" | awk '{if(NR==1 && $0 !~ /^('$attachment').*$/){print "1"}}')
-    [ -z $started ] && continue
+    started=$(echo "$comments" | awk '{if(NR==1 && $0 !~ /^('$prefix').*$/){print "1"}}')
+    [ -z $started ] && continue || :
   fi
 
   target_flag=$(cat ${tmp}target_commits | grep ^$commit_hash)
   if [ -n $target_flag ]; then
     comments=$(echo "$comments" | 
-    awk '{if(NR==1 && $0 !~ /^('$attachment').*$/){print "'$attachment' " $0}else{print}}')
+    awk '{if(NR==1 && $0 !~ /^('$prefix').*$/){print "'${prefix}${cushion}'" $0}else{print}}')
   fi
 
   git commit-tree $tree -p $parent -m "$comments" > $head_ref

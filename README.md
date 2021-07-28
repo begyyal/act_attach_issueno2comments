@@ -1,16 +1,21 @@
 # Overview
 
 This is a Github Action.  
-Prepend the issue no to all comments of unique commit in the branch.  
+Prepend a prefix to all comments of unique commits in the branch.  
 
 ## Premise
 
 - [Action's format including inputs.](https://github.com/begyyal/act_revise_comments/blob/master/action.yml)
+
+## Attention
+
 - Revised commits take over original author, but the committer does not.
+- This action replaces a original commit with a new commit,  
+  so duplicate commits, such as when pulling a processed branch to a not processed one.
 
 ## Example
 
-issueNo:1
+prefix -> #1
 
 ```
 7b88082 (HEAD -> feature/1, origin/feature/1) test2  

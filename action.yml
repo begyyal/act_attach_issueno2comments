@@ -1,8 +1,8 @@
-name: 'Give issue no to comments'
-description: 'Prepend the issue no to all comments of unique commit in the branch.'
+name: 'Give a prefix to comments'
+description: 'Prepend a prefix to all comments of unique commit in the branch.'
 
 inputs:
-  issueNo:
+  prefix:
     required: true
   branch:
     required: false
@@ -22,17 +22,22 @@ inputs:
   userMail:
     required: false
     default: 'begyyal@gmail.com'
+  omitSpaceFlag:
+    required: false
+    default: ''
+    
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.issueNo }}
+    - ${{ inputs.prefix }}
     - ${{ inputs.branch }}
     - ${{ inputs.token }}
     - ${{ inputs.repos }}
     - ${{ inputs.baseBranch }}
     - ${{ inputs.userName }}
     - ${{ inputs.userMail }}
+    - ${{ inputs.omitSpaceFlag }}
     
 branding:
   icon: 'message-square'
