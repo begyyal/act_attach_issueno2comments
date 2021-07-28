@@ -12,6 +12,7 @@ Prepend a prefix to all comments of unique commits in the branch.
 - Revised commits take over original author, but the committer does not.
 - This action replaces a original commit with a new commit,  
   so duplicate commits, such as when pulling a processed branch to a not processed one.
+- If execution to the same target is duplicated, comments that is prepended the prefix is skipped processing.
 
 ## Example
 

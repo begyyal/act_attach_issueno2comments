@@ -7,25 +7,44 @@ inputs:
   branch:
     required: false
     default: ${{ github.head_ref }}
+    description: >
+      A target to be revised.
   token:
     required: false
     default: ${{ github.token }}
+    description: >
+      Authorization token such as a github_token or PAT.
   repos:  
     required: false
     default: ${{ github.repository }}
-  baseBranch:
+    description: >
+      Target repository, the format is [owner]/[repository].
+  from:
     required: false
     default: ${{ github.base_ref }}
+    description: >
+      A branch source in two branches that extracts the difference to be revised.
+  to:
+    required: false
+    default: ''
+    description: >
+      A derived branch in two branches that extracts the difference to be revised.
+      Default value is the branch to be revised.
   userName:
     required: false
     default: 'begyyal-ghost'
+    description: >
+      The username used to create a new commit during revision.
   userMail:
     required: false
     default: 'begyyal@gmail.com'
+    description: >
+      The user mail used to create a new commit during revision.
   omitSpaceFlag:
     required: false
     default: ''
-    
+    description: >
+      If input anything in this flag, a blank between the prefix and a comment is omitted.
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -34,7 +53,8 @@ runs:
     - ${{ inputs.branch }}
     - ${{ inputs.token }}
     - ${{ inputs.repos }}
-    - ${{ inputs.baseBranch }}
+    - ${{ inputs.from }}
+    - ${{ inputs.to }}
     - ${{ inputs.userName }}
     - ${{ inputs.userMail }}
     - ${{ inputs.omitSpaceFlag }}

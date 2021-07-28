@@ -5,15 +5,16 @@ mkdir -p $tmp_dir
 tmp=${tmp_dir}'/act_'
 
 prefix="$1"
-to=$2
+target=$2
 token=$3
 repos=$4
 from=$5
+to=${6:-$target}
 
-user_name=$6
-user_mail=$7
+user_name=$7
+user_mail=$8
 
-[ -z "$8" ] && cushion=' ' || :
+[ -z "$9" ] && cushion=' ' || cushion=''
 
 if [ -z "$prefix" ]; then
   echo 'Required argument lacks.'
@@ -31,18 +32,24 @@ token64=$(printf "%s""x-access-token:$token" | base64)
 git config --local http.${origin}/.extraheader "AUTHORIZATION: basic $token64"
 
 git fetch --all
-git checkout $to
+git checkout $target
 
-git log origin/${from}..${to} --oneline |
+git log origin/${from}..origin/${to} --oneline |
 cut -d " " -f 1 |
 tac > ${tmp}target_commits
+
 first_commit=$(cat ${tmp}target_commits | head -n 1)
 if [ -z "$first_commit" ]; then
-  echo 'Target commit dont exist.'
+  echo 'Unique commit of the [to] branch from [from] branch as the target of revision dont exist.'
   exit 0
 fi
 
 target_nr=$(git log --oneline | awk '{if($1=="'$first_commit'"){print NR}}')
+if [ -z "$target_nr" ]; then
+  echo 'Unique commit of the [to] branch from [from] branch as the target of revision dont exist in the target branch.'
+  exit 0
+fi
+
 parent=$(git log --oneline |
 cut -d " " -f 1 |
 head -n $(($target_nr+1)) | 
@@ -50,15 +57,14 @@ tac |
 tee ${tmp}targets_of_revision |
 head -n 1)
 
-head_ref="./.git/refs/heads/$to"
+head_ref="./.git/refs/heads/$target"
 started=''
 
 cat ${tmp}targets_of_revision |
 sed '1d' |
 while read commit_hash; do
 
-  props=$(git cat-file -p $commit_hash | 
-  awk '{if($0==""){flag=1}else if(flag!=1){print $0}}')
+  props=$(git cat-file -p $commit_hash | awk '{if($0==""){flag=1}else if(flag!=1){print $0}}')
   tree=$(echo "$props" | grep ^tree | cut -d " " -f 2)
   author=$(echo "$props" | grep ^author | cut -d " " -f 2-)
 
