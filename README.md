@@ -7,16 +7,21 @@ Prepend a prefix to all comments of unique commits in the branch.
 
 - [Action's format including inputs.](https://github.com/begyyal/act_revise_comments/blob/master/action.yml)
 
-## Attention
+## Behavier
 
 - Revised commits take over original author, but the committer does not.
+- If execution to the same target is duplicated, comments that is prepended the prefix is skipped processing.
+
+## Attention
+
 - This action replaces a original commit with a new commit,  
   so duplicate commits, such as when pulling a processed branch to a not processed one.
-- If execution to the same target is duplicated, comments that is prepended the prefix is skipped processing.
 
 ## Example
 
 prefix -> #1
+from -> develop
+to -> feature/1
 
 ```
 7b88082 (HEAD -> feature/1, origin/feature/1) test2  
