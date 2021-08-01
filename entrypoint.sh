@@ -77,7 +77,7 @@ while read commit_hash; do
   target_flag=$(cat ${tmp}target_commits | grep ^$commit_hash)
   if [ -n $target_flag ]; then
     comments=$(echo "$comments" | 
-    awk '{if(NR==1 && $0 !~ /^('$prefix').*$/){print "'${prefix}${cushion}'" $0}else{print}}')
+    awk -v prefix="${prefix}${cushion}" '{if(NR==1 && $0 !~ /^('$prefix').*$/){print prefix $0}else{print}}')
   fi
 
   git commit-tree $tree -p $parent -m "$comments" > $head_ref
