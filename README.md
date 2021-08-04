@@ -1,7 +1,7 @@
 # Overview
 
 This is a Github Action.  
-Prepend a prefix to all comments of unique commits in the branch.  
+Prepend a prefix to all comments of unique commits in the branch, and push it.  
 
 ## Premise
 
