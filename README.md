@@ -32,7 +32,7 @@ a3d2669 (origin/develop, origin/HEAD, develop) test3
 &nbsp;&nbsp;↓&nbsp;↓&nbsp;↓  
 
 ```
-7b88082 (HEAD -> feature/1, origin/feature/1) #1 test2  
-43f3ab2 #1 test1  
+7f82129 (HEAD -> feature/1, origin/feature/1) #1 test2  
+a432557 #1 test1  
 a3d2669 (origin/develop, origin/HEAD, develop) test3
 ```
