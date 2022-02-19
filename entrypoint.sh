@@ -21,6 +21,13 @@ if [ -z "$prefix" ]; then
   exit 1
 fi
 
+function end(){
+  cd ../
+  rm -rdf ./${repos#*/}
+  rm -f ${tmp}*
+  exit $1
+}
+
 origin=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}
 git clone ${origin}/${repos}.git
 cd ./${repos#*/}
@@ -41,13 +48,13 @@ tac > ${tmp}target_commits
 first_commit=$(cat ${tmp}target_commits | head -n 1)
 if [ -z "$first_commit" ]; then
   echo 'Unique commit of the [to] branch from [from] branch as the target of revision dont exist.'
-  exit 0
+  end 0
 fi
 
 target_nr=$(git log --oneline | awk '{if($1=="'$first_commit'"){print NR}}')
 if [ -z "$target_nr" ]; then
   echo 'Unique commit of the [to] branch from [from] branch as the target of revision dont exist in the target branch.'
-  exit 0
+  end 0
 fi
 
 parent=$(git log --oneline |
@@ -81,19 +88,16 @@ while read commit_hash; do
   fi
 
   git commit-tree $tree -p $parent -m "$comments" > $head_ref
+  git reset --hard HEAD
   git commit --amend --author="$author" -C HEAD --allow-empty
   parent=$(cat $head_ref)
 done
 
 if [ $? != 0 ]; then
   echo 'Error occurred.'
-  exit 1
+  end 1
 fi
 
 git push origin HEAD -f
 
-cd ../
-rm -rdf ./${repos#*/}
-rm -f ${tmp}*
-
-exit 0
+end 0
