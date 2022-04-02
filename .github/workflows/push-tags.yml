@@ -1,0 +1,38 @@
+name: Update tag
+
+on:
+  push:
+    tags: [ v1.* ]
+
+jobs:
+
+  update-tag:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Set git configs
+      run: |
+        git config --global user.email "begyyal@gmail.com"
+        git config --global user.name "begyyal-ghost"
+
+    - name: Update tag
+      run: |
+        git tag -a v1 -m "BY-CI"
+        git push origin v1 -f
+
+    - name: Post tweet
+      run: |
+        ./.github/workflows/sh/tweet_template.sh \
+        ${{ github.ref_name }} \
+        ${{ github.event.repository.html_url }} > ./data_temp
+        ./.github/workflows/sh/tweet.sh \
+        ${{ secrets.TW_CONS_KEY }} \
+        ${{ secrets.TW_CONS_SECRET }} \
+        ${{ secrets.TW_OAUTH_TOKEN }} \
+        ${{ secrets.TW_OAUTH_SECRET }} \
+        ./data_temp
+

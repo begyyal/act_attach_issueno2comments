@@ -28,15 +28,15 @@ function end(){
   exit $1
 }
 
-origin=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}
-git clone ${origin}/${repos}.git
-cd ./${repos#*/}
-
-git config --local user.email $user_mail
-git config --local user.name $user_name
+git config --global user.email $user_mail
+git config --global user.name $user_name
 
 token64=$(printf "%s""x-access-token:$token" | base64)
-git config --local http.${origin}/.extraheader "AUTHORIZATION: basic $token64"
+origin=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}
+git config --global http.${origin}/.extraheader "AUTHORIZATION: basic $token64"
+
+git clone ${origin}/${repos}.git
+cd ./${repos#*/}
 
 git fetch --all
 git checkout $target
