@@ -1,9 +1,9 @@
 #!/bin/bash
 
 tag_name=$1
-repo_url=$2
+url="https://github.com/marketplace/actions/give-a-prefix-to-comments"
 
 LF=$'\\n'
-text="tumeshogi_solver updated to ${tag_name}${LF}${repo_url}${LF}#Java #将棋 #詰将棋"
+text="act_revise_comments updated to ${tag_name}${LF}${url}${LF}"
 
 echo -n "{\"text\":\"${text}\"}"
