@@ -1,10 +1,8 @@
 # Overview
 
-This is a Github Action.  
-Prepend a prefix to all comments of unique commits in the branch, and push it.  
-
-## Premise
-
+Prepend a prefix to comments of commits which are differences between two branches.  
+And push it to a target.  
+The branches can be set by params `branch/from/to` as below, and example is [here](#Example).
 - [Action's format including inputs.](https://github.com/begyyal/act_revise_comments/blob/master/action.yml)
 
 ## Behavier
@@ -22,6 +20,8 @@ Prepend a prefix to all comments of unique commits in the branch, and push it.
 prefix -> #1  
 branch -> feature/1  
 from -> develop  
+
+*`to` is set to `branch`(`feature/1`) as default value.
 
 ```
 7b88082 (HEAD -> feature/1, origin/feature/1) test2  
