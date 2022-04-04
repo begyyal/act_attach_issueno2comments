@@ -6,7 +6,6 @@ inputs:
     required: true
   branch:
     required: false
-    default: ${{ github.head_ref }}
     description: >
       A target to be revised.
   token:
@@ -26,7 +25,6 @@ inputs:
       A branch source in two branches that extracts the difference to be revised.
   to:
     required: false
-    default: ''
     description: >
       A derived branch in two branches that extracts the difference to be revised.
       Default value is the branch to be revised.
@@ -45,6 +43,7 @@ inputs:
     default: ''
     description: >
       If input anything in this flag, a blank between the prefix and a comment is omitted.
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -58,7 +57,7 @@ runs:
     - ${{ inputs.userName }}
     - ${{ inputs.userMail }}
     - ${{ inputs.omitSpaceFlag }}
-    
+
 branding:
   icon: 'message-square'
   color: 'red'
