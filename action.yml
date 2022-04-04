@@ -8,6 +8,8 @@ inputs:
     required: false
     description: >
       A target to be revised.
+      If in push trigger, default value is the subject branch of the trigger.  
+      If in pull_request trigger, default value is a source branch. 
   token:
     required: false
     default: ${{ github.token }}
