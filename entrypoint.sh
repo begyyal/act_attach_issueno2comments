@@ -13,7 +13,6 @@ to=${6:-$target}
 
 user_name=$7
 user_mail=$8
-
 [ -z "$9" ] && cushion=' ' || cushion=''
 
 if [ -z "$prefix" ]; then
@@ -36,28 +35,48 @@ origin=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}
 git config --global http.${origin}/.extraheader "AUTHORIZATION: basic $token64"
 
 git clone ${origin}/${repos}.git
+[ $? != 0 ] && end 1 || :
 cd ./${repos#*/}
+
+if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+  target=${target:-$GITHUB_REF_NAME}
+elif [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+  target=${target:-$GITHUB_HEAD_REF}
+fi
 
 git fetch --all
 git checkout $target
 
-git log origin/${from}..origin/${to} --oneline |
-cut -d " " -f 1 |
-tac > ${tmp}target_commits
+if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+  /shjp.sh "$GITHUB_EVENT_PATH" commits > ${tmp}event_commits
+  if [ -z "$(cat ${tmp}event_commits)" ]; then
+    echo
+  else
+    cat ${tmp}event_commits | 
+    while read c; do 
+      /shjp.sh "$c" id
+    done
+  fi
+else
+  git log origin/${from}..origin/${to} --pretty=oneline |
+  cut -d " " -f 1 |
+  tac
+fi > ${tmp}target_commits
+[ $? != 0 ] && end 1 || :
 
 first_commit=$(cat ${tmp}target_commits | head -n 1)
 if [ -z "$first_commit" ]; then
-  echo 'Unique commit of the [to] branch from [from] branch as the target of revision dont exist.'
+  echo 'The target commits of the processing dont exist.'
   end 0
 fi
 
-target_nr=$(git log --oneline | awk '{if($1=="'$first_commit'"){print NR}}')
+target_nr=$(git log --pretty=oneline | awk '{if($1=="'$first_commit'"){print NR}}')
 if [ -z "$target_nr" ]; then
-  echo 'Unique commit of the [to] branch from [from] branch as the target of revision dont exist in the target branch.'
+  echo 'The target commits of the processing dont exist in the target branch.'
   end 0
 fi
 
-parent=$(git log --oneline |
+parent=$(git log --pretty=oneline |
 cut -d " " -f 1 |
 head -n $(($target_nr+1)) | 
 tac |
