@@ -48,15 +48,8 @@ git fetch --all
 git checkout $target
 
 if [ "$GITHUB_EVENT_NAME" = "push" ]; then
-  /shjp.sh "$GITHUB_EVENT_PATH" commits > ${tmp}event_commits
-  if [ -z "$(cat ${tmp}event_commits)" ]; then
-    echo
-  else
-    cat ${tmp}event_commits | 
-    while read c; do 
-      /shjp.sh "$c" id
-    done
-  fi
+  /shjp "$GITHUB_EVENT_PATH" -t commits | 
+  /shjp -t id
 else
   git log origin/${from}..origin/${to} --pretty=oneline |
   cut -d " " -f 1 |
