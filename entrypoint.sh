@@ -63,9 +63,11 @@ if [ -z "$first_commit" ]; then
   end 0
 fi
 
-target_nr=$(git log --pretty=oneline | awk '{if($1=="'$first_commit'"){print NR}}')
+git log --pretty=oneline > ${tmp}aaa
+target_nr=$(cat ${tmp}aaa | awk '{if($1=="'$first_commit'"){print NR}}')
 if [ -z "$target_nr" ]; then
   echo 'The target commits of the processing dont exist in the target branch.'
+  cat ${tmp}aaa
   end 0
 fi
 
